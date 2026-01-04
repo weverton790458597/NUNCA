@@ -69,6 +69,11 @@ if (!auth || !auth.logado) {
 auth.ultimaTela = 'sinais';
 localStorage.setItem('auth', JSON.stringify(auth));
 
+	let audioLiberado = false;
+
+document.addEventListener('click', () => {
+  audioLiberado = true;
+}, { once: true });
   // --------------------
   // Configurações
   // --------------------
@@ -245,7 +250,14 @@ window.enviarTelegram = function(msg) {
             .catch(err => console.error('Erro ao enviar Telegram:', err));
     });
 };
+	
+if (alarmeAtivo && audioLiberado) {
+  try { sons.compra.play(); } catch(e){}
+}
 
+if (audioLiberado) {
+  try { alertaSom.play(); } catch(e){}
+}
 
   const sons = {
     compra: new Audio('/sounds/compra.mp3'),
@@ -847,6 +859,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
