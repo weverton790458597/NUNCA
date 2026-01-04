@@ -4,7 +4,6 @@ const entrarBtn = document.getElementById('entrar');
 const erro = document.getElementById('erro');
 const toggleSenha = document.getElementById('toggleSenha');
 
-// URL do Google Apps Script
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx33kwB_uKur1d12uVrWrBPkcEM8m9-NhgL6RTzso9TPGb5wsHWV7S9OrfkAxeiAnnz0g/exec";
 
 // =====================================
@@ -14,10 +13,10 @@ const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx33kwB_uKur1d12u
   const auth = JSON.parse(localStorage.getItem('auth'));
 
   if (auth?.logado) {
-    if (auth.ultimaTela === 'bem-vindo') {
-      window.location.replace('bem-vindo.html');
+    if (auth.ultimaTela === 'conta') {
+      window.location.replace('/conta/');
     } else if (auth.ultimaTela === 'sinais') {
-      window.location.replace('sinais.html');
+      window.location.replace('/sinais/');
     }
   }
 })();
@@ -44,15 +43,14 @@ function validarLogin() {
       console.log('Resposta AppScript:', data);
 
       if (data?.success) {
-        // Salva estado de login (WEB)
         localStorage.setItem('auth', JSON.stringify({
           logado: true,
           email,
           nome: data.nome || '',
-          ultimaTela: 'bem-vindo'
+          ultimaTela: 'conta' // 👈 PRIMEIRA TELA APÓS LOGIN
         }));
 
-        window.location.href = 'bem-vindo.html';
+        window.location.href = '/conta/';
 
       } else {
         erro.textContent = 'E-mail ou senha inválidos';
