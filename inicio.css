@@ -1,327 +1,354 @@
-/* ===========================
-   RESET E BASE
-=========================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* =========================================================
+   RESET + VARIÁVEIS
+========================================================= */
+:root{
+  --bg-900:#06070a;
+  --glass: rgba(255,255,255,0.04);
+  --glass-strong: rgba(255,255,255,0.06);
+  --accent-1: #6EE7F9;
+  --accent-2: #7C3AED;
+  --accent-3: #FFD166;
+  --muted: #9aa6b2;
+  --card-radius: 14px;
 }
 
-html, body {
-  font-family: 'Inter', sans-serif;
-  background: #0b0f14;
-  color: #e6e8eb;
-  scroll-behavior: smooth;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+html,body{
+  height:100%;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
+body{
+  font-family:Inter,Segoe UI,Roboto,system-ui,-apple-system,"Helvetica Neue",Arial;
+  background:var(--bg-900);
+  color:#e6edf3;
+  line-height:1.5;
+  overflow-x:hidden;
 }
 
-/* ===========================
-   BACKGROUND
-=========================== */
-.page {
-  position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
+a{color:inherit;text-decoration:none}
+button{font:inherit;background:none;border:none}
+
+/* =========================================================
+   PAGE + BACKGROUND
+========================================================= */
+.page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position:relative;
 }
 
-.bg-gradient {
-  position: fixed;
-  inset: 0;
+.bg-gradient{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
   background:
-    radial-gradient(circle at 20% 20%, rgba(0,255,170,0.12), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(0,140,255,0.12), transparent 45%),
-    linear-gradient(180deg, #0b0f14, #070a0f);
-  z-index: -2;
+    radial-gradient(ellipse at 10% 10%, rgba(124,58,237,0.12), transparent 8%),
+    radial-gradient(ellipse at 90% 85%, rgba(255,209,102,0.06), transparent 12%),
+    linear-gradient(180deg, rgba(15,18,23,1) 0%, rgba(6,8,12,1) 100%);
+  filter:blur(30px) saturate(1.1);
 }
 
-.bg-particles {
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.15;
-  z-index: -1;
+.bg-particles{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:0.12;
+  background-image:
+    radial-gradient(circle at 10px 10px, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:28px 28px;
 }
 
-/* ===========================
+/* =========================================================
    HEADER
-=========================== */
-header {
-  max-width: 1200px;
-  margin: auto;
-  padding: 24px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+========================================================= */
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 28px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  backdrop-filter:blur(6px);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
 }
 
-.brand img {
-  width: 36px;
-  height: 36px;
+.brand img{
+  width:40px;
+  height:40px;
+  border-radius:8px;
 }
 
-.brand h1 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+.brand h1{
+  font-size:1.05rem;
+  color:var(--accent-1);
+  letter-spacing:.4px;
 }
 
-nav {
-  display: flex;
-  gap: 24px;
+nav a{
+  color:var(--muted);
+  font-weight:600;
+  font-size:.95rem;
 }
 
-nav a {
-  font-size: 0.95rem;
-  color: #cfd3d8;
-  transition: color 0.3s;
-}
-
-nav a:hover {
-  color: #00ffae;
-}
-
-/* ===========================
+/* =========================================================
    HERO
-=========================== */
-.hero {
-  padding: 90px 20px 60px;
-  text-align: center;
+========================================================= */
+.hero{
+  position:relative;
+  z-index:2;
+  padding:88px 18px 48px;
+  display:grid;
+  place-items:center;
+  text-align:center;
 }
 
-.hero-inner {
-  max-width: 900px;
-  margin: auto;
+.hero-inner{
+  max-width:1200px;
+  width:100%;
+  padding:0 20px;
 }
 
-.alpha-title {
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  font-weight: 800;
-  background: linear-gradient(90deg, #00ffae, #00b3ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.alpha-title{
+  position:relative;
+  font-weight:800;
+  font-size:clamp(38px,6vw,64px);
+  line-height:1;
+  color:transparent;
 }
 
-.hero-sub {
-  margin-top: 20px;
-  font-size: 1.15rem;
-  color: #b7bdc6;
-  line-height: 1.6;
+.alpha-title::before{
+  content:"Alpha Signals";
+  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(124,58,237,0.12));
 }
 
-.cta-wrap {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
+.hero-sub{
+  font-size:1.05rem;
+  color:var(--muted);
+  max-width:900px;
+  margin:0 auto;
 }
 
-/* ===========================
-   BOTÕES
-=========================== */
-.cta {
-  position: relative;
-  padding: 14px 34px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #00ffae, #00b3ff);
-  color: #00130c;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 0 25px rgba(0,255,170,0.35);
-  overflow: hidden;
+/* =========================================================
+   CTA
+========================================================= */
+.cta-wrap{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  margin-top:10px;
+  flex-wrap:wrap;
 }
 
-.cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 35px rgba(0,255,170,0.55);
+.cta{
+  position:relative;
+  display:inline-block;
+  padding:14px 26px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  color:#061018;
+  font-weight:700;
+  box-shadow:0 10px 30px rgba(124,58,237,0.12);
+  transition:transform .18s ease;
 }
 
-.cta-ghost {
-  padding: 14px 34px;
-  border-radius: 999px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #e6e8eb;
-  font-weight: 600;
+.cta:hover{transform:translateY(-4px)}
+
+.cta .pulse{
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  box-shadow:0 0 40px rgba(124,58,237,0.16);
+  animation:pulse 2.2s infinite;
 }
 
-.cta-ghost:hover {
-  border-color: #00ffae;
-  color: #00ffae;
+@keyframes pulse{
+  0%{opacity:.6;transform:scale(1)}
+  50%{opacity:.15;transform:scale(1.18)}
+  100%{opacity:.6;transform:scale(1)}
 }
 
-.pulse {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  animation: pulse 2.5s infinite;
+.cta-ghost{
+  padding:12px 18px;
+  border-radius:10px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.04);
+  color:var(--muted);
+  font-weight:600;
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(0,255,170,0.5); }
-  70% { box-shadow: 0 0 0 25px rgba(0,255,170,0); }
-  100% { box-shadow: 0 0 0 0 rgba(0,255,170,0); }
+/* =========================================================
+   MAIN / BENEFITS
+========================================================= */
+main{
+  position:relative;
+  z-index:2;
+  padding:20px 18px 120px;
 }
 
-/* ===========================
-   CONTEÚDO
-=========================== */
-main {
-  padding: 40px 20px 80px;
+.panel{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  gap:28px;
 }
 
-.panel {
-  max-width: 1200px;
-  margin: auto;
+.benefits{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
 }
 
-/* ===========================
-   BENEFÍCIOS
-=========================== */
-.benefits-section {
-  text-align: center;
-  margin-bottom: 100px;
+.benefit-card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.04);
+  padding:20px;
+  border-radius:var(--card-radius);
+  display:flex;
+  gap:14px;
+  box-shadow:0 6px 22px rgba(6,8,12,.6);
+  transition:transform .22s ease;
 }
 
-.benefits-section h2 {
-  font-size: 2.1rem;
-  margin-bottom: 10px;
+.benefit-card:hover{
+  transform:translateY(-8px);
 }
 
-.section-sub {
-  color: #9ea6b0;
-  max-width: 600px;
-  margin: 0 auto 50px;
+.benefit-ico{
+  min-width:52px;
+  height:52px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:1.3rem;
 }
 
-.benefits {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+.benefit-body h4{
+  margin-bottom:6px;
+  font-size:1.02rem;
+  color:var(--accent-2);
 }
 
-.benefit-card {
-  background: rgba(255,255,255,0.04);
-  border-radius: 18px;
-  padding: 28px;
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.3s, border-color 0.3s;
+.benefit-body p{
+  color:var(--muted);
+  font-size:.95rem;
 }
 
-.benefit-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0,255,170,0.6);
+/* =========================================================
+   DETAILS + PRICE
+========================================================= */
+.details{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:20px;
 }
 
-.benefit-card h4 {
-  margin-bottom: 10px;
-  font-size: 1.05rem;
+.details-left{
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:22px;
+  border:1px solid rgba(255,255,255,0.03);
 }
 
-.benefit-card p {
-  color: #b5bcc6;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.details-left h3{
+  color:var(--accent-1);
+  margin-bottom:8px;
 }
 
-/* ===========================
-   PLANOS
-=========================== */
-.plans-section {
-  text-align: center;
+.details-left p,
+.details-left li{
+  color:var(--muted);
 }
 
-.plan-card {
-  max-width: 420px;
-  margin: 40px auto 0;
-  padding: 36px 28px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  border: 1px solid rgba(0,255,170,0.4);
-  box-shadow: 0 0 45px rgba(0,255,170,0.2);
+.details-left ul{
+  margin:12px 0 0 18px;
 }
 
-.plan-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 14px;
+.details-right{
+  background:var(--glass);
+  border-radius:var(--card-radius);
+  padding:20px;
+  border:1px solid rgba(255,255,255,0.03);
+  display:flex;
+  justify-content:center;
 }
 
-.price {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #00ffae;
+.price-tag{
+  width:100%;
+  border-radius:12px;
+  padding:22px;
+  background:linear-gradient(180deg, rgba(124,58,237,0.14), rgba(110,231,249,0.06));
+  text-align:center;
 }
 
-.price span {
-  font-size: 1rem;
-  color: #9ea6b0;
+.price{
+  font-size:2.4rem;
+  font-weight:800;
+  color:#041018;
 }
 
-.plan-desc {
-  margin: 18px 0 28px;
-  color: #c3c9d1;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.price span{
+  font-size:.9rem;
 }
 
-.legal-note {
-  margin-top: 20px;
-  font-size: 0.72rem;
-  color: #8b9199;
-  line-height: 1.4;
+.price-tag small{
+  color:#041018;
+  opacity:.75;
 }
 
-/* ===========================
+.legal-note{
+  margin-top:14px;
+  font-size:.72rem;
+  color:#2b2f33;
+  opacity:.8;
+}
+
+/* =========================================================
    FOOTER
-=========================== */
-.sitefoot {
-  text-align: center;
-  padding: 40px 20px 30px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+========================================================= */
+.sitefoot{
+  margin-top:80px;
+  padding:34px 18px;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,0.02);
 }
 
-.sitefoot img {
-  width: 42px;
-  opacity: 0.85;
+.sitefoot .logo{
+  height:30px;
+  margin-bottom:10px;
 }
 
-.sitefoot p {
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: #8a9098;
-}
-
-/* ===========================
+/* =========================================================
    RESPONSIVO
-=========================== */
-@media (max-width: 600px) {
-  nav {
-    display: none;
+========================================================= */
+@media(max-width:980px){
+  .details{
+    grid-template-columns:1fr;
   }
+}
 
-  .hero {
-    padding-top: 60px;
-  }
-
-  .price {
-    font-size: 2.4rem;
-  }
+@media(max-width:560px){
+  header{padding:12px}
+  .alpha-title{font-size:28px}
 }
