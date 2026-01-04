@@ -1,27 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Recupera auth do localStorage
+  // ================= 🔐 VERIFICA LOGIN =================
   const auth = JSON.parse(localStorage.getItem('auth'));
 
-  // 🔐 BLOQUEIO DE ACESSO DIRETO VIA URL
   if (!auth || !auth.logado) {
     window.location.replace('/login/');
     return;
   }
 
-  // Marca última tela corretamente
+  // Atualiza última tela
   auth.ultimaTela = 'conta';
   localStorage.setItem('auth', JSON.stringify(auth));
 
-  // Exibe nome no header
-  const header = document.querySelector('.trade-header');
+  // Nome no header
+  const header = document.getElementById('userHeader');
   if (header) {
     header.textContent = `Bem-vindo ao TradeWR, ${auth.nome || ''}`;
   }
 
-  // Botão iniciar trade
-  const iniciarTradeBtn = document.getElementById('iniciarTrade');
-  if (iniciarTradeBtn) {
-    iniciarTradeBtn.addEventListener('click', () => {
+  // ================= Menu Interaction =================
+  const menuItems = document.querySelectorAll('.menu-item');
+  const sections = document.querySelectorAll('.section');
+  const placeholderLogo = document.getElementById('placeholderLogo');
+
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      placeholderLogo.style.display = 'none';
+
+      const target = item.dataset.section;
+      sections.forEach(sec => {
+        sec.style.display = sec.id === target ? 'block' : 'none';
+      });
+    });
+  });
+
+  // ================= Iniciar Trade =================
+  const iniciarBtn = document.getElementById('iniciarTrade');
+  if (iniciarBtn) {
+    iniciarBtn.addEventListener('click', () => {
       window.location.href = '/sinais/';
     });
   }
