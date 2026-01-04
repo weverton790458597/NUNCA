@@ -157,7 +157,6 @@ alternarLogoTexto();
   const textoSinal = divStatus.querySelector('.textoSinal');
   const horarioSinal = divStatus.querySelector('.horarioSinal');
 
-  const alarmeToggle = document.getElementById('alarmeToggle');
   let alarmeAtivo = false;
    
   // --------------------
@@ -258,15 +257,6 @@ document.addEventListener('click', () => {
       alarmeAtivo = result.alarmeAtivo;
       alarmeToggle.classList.toggle('on', alarmeAtivo);
     }
-  });
-
-  // --------------------
-  // Toggle do alarme
-  // --------------------
-  alarmeToggle.addEventListener('click', () => {
-    alarmeAtivo = !alarmeAtivo;
-    alarmeToggle.classList.toggle('on', alarmeAtivo);
-    chrome.storage.local.set({ alarmeAtivo });
   });
 
   // --------------------
@@ -834,3 +824,4 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
