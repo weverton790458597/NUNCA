@@ -1,3 +1,60 @@
+// ================================
+// CHROME STORAGE SHIM (WEB)
+// ================================
+if (typeof chrome === 'undefined') {
+  window.chrome = {};
+}
+
+if (!chrome.storage) {
+  chrome.storage = {};
+}
+
+function storageGet(area, keys, callback) {
+  let result = {};
+
+  if (typeof keys === 'string') {
+    const val = localStorage.getItem(keys);
+    result[keys] = val ? JSON.parse(val) : undefined;
+  } 
+  else if (Array.isArray(keys)) {
+    keys.forEach(k => {
+      const val = localStorage.getItem(k);
+      result[k] = val ? JSON.parse(val) : undefined;
+    });
+  } 
+  else if (typeof keys === 'object') {
+    Object.keys(keys).forEach(k => {
+      const val = localStorage.getItem(k);
+      result[k] = val ? JSON.parse(val) : keys[k];
+    });
+  }
+
+  callback && callback(result);
+}
+
+function storageSet(area, data, callback) {
+  Object.keys(data).forEach(k => {
+    localStorage.setItem(k, JSON.stringify(data[k]));
+  });
+  callback && callback();
+}
+
+chrome.storage.sync = {
+  get: (keys, cb) => storageGet('sync', keys, cb),
+  set: (data, cb) => storageSet('sync', data, cb)
+};
+
+chrome.storage.local = {
+  get: (keys, cb) => storageGet('local', keys, cb),
+  set: (data, cb) => storageSet('local', data, cb)
+};
+
+function chromeGetPromise(area, keys) {
+  return new Promise(resolve => {
+    chrome.storage[area].get(keys, result => resolve(result));
+  });
+}
+
 (() => {
   // --------------------
   // Configurações
@@ -249,7 +306,7 @@ window.enviarTelegram = function(msg) {
   ///////////////////////////////
    async function atualizarIndicadores(symbol, precoAtual) {
 
-  const data = await chrome.storage.sync.get({ enabledPairs: defaultPairs });
+ const data = await chromeGetPromise('sync', { enabledPairs: defaultPairs });
   if (!data.enabledPairs[symbol]) return; // corta indicador
 	
   const velasRecebidas = ativos[symbol].velas;
