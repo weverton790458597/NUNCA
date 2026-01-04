@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - TradeWR</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0b0d14;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(124,58,237,0.1), rgba(110,231,249,0.05));
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 20px),
+                        repeating-linear-gradient(-45deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 20px);
+      z-index: -1;
+      animation: moveGrid 30s linear infinite;
+    }
+
+    @keyframes moveGrid {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 200px 200px, -200px -200px; }
+    }
+
+    .cadastro-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(20, 22, 30, 0.85);
+      padding: 40px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 40px rgba(124,58,237,0.4);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 25px;
+      background-image: url('/logo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #6EE7F9;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      background-color: #1f2029;
+      color: #fff;
+      transition: 0.2s;
+    }
+
+    input::placeholder {
+      color: #888;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(110,231,249,0.5);
+      background-color: #292a38;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #6EE7F9, #7C3AED);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #0b0d14;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      filter: brightness(1.1);
+    }
+
+    .mensagem {
+      margin-top: 18px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    @media (max-width: 500px) {
+      .cadastro-container {
+        padding: 25px 20px;
+      }
+      h2 { font-size: 20px; }
+      input { padding: 12px; font-size: 14px; }
+      button { padding: 12px; font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cadastro-container">
+    <div class="logo"></div>
+    <h2>Cadastro - TradeWR</h2>
+
+    <input type="text" id="nome" placeholder="Digite seu nome">
+    <input type="email" id="email" placeholder="Digite seu e-mail">
+    <input type="password" id="senha" placeholder="Crie uma senha">
+
+    <button id="cadastrar">Cadastrar</button>
+
+    <div class="mensagem" id="mensagem"></div>
+  </div>
+
+  <script>
+const nomeInput = document.getElementById('nome');
+const emailInput = document.getElementById('email');
+const senhaInput = document.getElementById('senha');
+const cadastrarBtn = document.getElementById('cadastrar');
+const mensagem = document.getElementById('mensagem');
+
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx33kwB_uKur1d12uVrWrBPkcEM8m9-NhgL6RTzso9TPGb5wsHWV7S9OrfkAxeiAnnz0g/exec";
+const PAGAMENTO_URL = "https://mpago.la/1zntoGV"; // Substitua pela URL do checkout
+
+cadastrarBtn.addEventListener('click', () => {
+  const nome = nomeInput.value.trim();
+  const email = emailInput.value.trim();
+  const senha = senhaInput.value.trim();
+  const plano = 'TradeWR'; // define o plano da página
+  mensagem.textContent = '';
+
+  if (!nome || !email || !senha) {
+    mensagem.style.color = 'red';
+    mensagem.textContent = 'Preencha todos os campos!';
+    return;
+  }
+
+  const formData = new URLSearchParams();
+  formData.append('nome', nome);
+  formData.append('email', email);
+  formData.append('senha', senha);
+  formData.append('plano', plano); // adiciona o plano ao enviar
+
+  mensagem.style.color = '#81c784';
+  mensagem.textContent = 'Redirecionando para a página de pagamento...';
+
+  fetch(SHEET_API_URL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      // Limpar campos
+      nomeInput.value = '';
+      emailInput.value = '';
+      senhaInput.value = '';
+
+      // Enviar notificação para o Telegram
+      enviarNotificacaoTelegram(plano);
+
+      // Redirecionar
+      setTimeout(() => {
+        window.location.href = PAGAMENTO_URL;
+      }, 1500);
+    } else {
+      mensagem.style.color = 'red';
+      mensagem.textContent = data.message || 'Erro ao cadastrar';
+    }
+  })
+  .catch(err => {
+    console.error('Erro:', err);
+    mensagem.style.color = 'red';
+    mensagem.textContent = 'Erro ao cadastrar';
+  });
+});
+
+function enviarNotificacaoTelegram(plano) {
+  const token = '8317811156:AAGHGwCoSVQNTaKwm9OqLoGeyEyOaz-pNeA';
+  const chat_id = '936653257';
+
+  const now = new Date();
+  const data = now.toLocaleDateString('pt-BR');
+  const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+  const mensagem = `Novo cadastro!\nPlano: ${plano}\nData: ${data}\nHora: ${hora}`;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chat_id, text: mensagem })
+  })
+  .then(res => res.json())
+  .then(data => console.log('Notificação enviada:', data))
+  .catch(err => console.error('Erro ao enviar notificação:', err));
+}
+</script>
+</body>
+</html>
