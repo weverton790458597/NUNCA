@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro - TradeWR</title>
-  <link rel="icon" type="image/png" href="/logo.png">
+  <link rel="icon" type="image/png" href="/icon16.png">
   <style>
     * { box-sizing: border-box; }
 
@@ -60,7 +60,7 @@
       width: 100px;
       height: 100px;
       margin: 0 auto 25px;
-      background-image: url('/logo.png');
+      background-image: url('/icon16.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -128,12 +128,128 @@
       input { padding: 12px; font-size: 14px; }
       button { padding: 12px; font-size: 15px; }
     }
+	
+	/* Botão Como Funciona */
+.como-funciona-wrap {
+  margin-top: 12px;
+}
+
+.como-funciona-btn {
+  background: transparent;
+  border: none;
+  color: #9aa6b2;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.como-funciona-btn:hover {
+  color: #6EE7F9;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.75);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.overlay-box {
+  background: rgba(20, 22, 30, 0.95);
+  border-radius: 16px;
+  padding: 30px 25px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 0 40px rgba(124,58,237,0.45);
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.overlay-box h3 {
+  margin-bottom: 20px;
+  color: #6EE7F9;
+}
+
+.overlay-box ol {
+  text-align: left;
+  color: #cfd8dc;
+  font-size: 14px;
+  padding-left: 18px;
+}
+
+.overlay-box li {
+  margin-bottom: 10px;
+}
+
+.overlay-box .obs {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #9aa6b2;
+}
+
+.overlay-ok {
+  margin-top: 22px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #6EE7F9, #7C3AED);
+  color: #0b0d14;
+}
+
   </style>
 </head>
 <body>
   <div class="cadastro-container">
     <div class="logo"></div>
     <h2>Cadastro - TradeWR</h2>
+
+<!-- Botão Como Funciona -->
+<div class="como-funciona-wrap">
+  <button id="btnComoFunciona" class="como-funciona-btn">
+    Como funciona o acesso?
+  </button>
+</div>
+
+<!-- Overlay -->
+<div id="overlayComoFunciona" class="overlay">
+  <div class="overlay-box">
+    <h3>Como funciona o acesso à TradeWR</h3>
+
+    <ol>
+      <li><strong>Cadastro:</strong> preencha seus dados e crie sua conta.</li>
+      <li><strong>Pagamento:</strong> após o cadastro, você será redirecionado para a página de pagamento.</li>
+      <li><strong>Acesso liberado:</strong> com o pagamento confirmado, seu acesso é ativado por <strong>30 dias</strong>.</li>
+      <li><strong>Renovação:</strong> ao final do período, basta entrar em contato com o <strong>ADM</strong> para renovar.</li>
+    </ol>
+
+    <p class="obs">
+      OBS: Valores podem sofrer alterações sem aviso prévio.
+    </p>
+
+    <button id="btnFecharOverlay" class="overlay-ok">
+      OK, entendi
+    </button>
+  </div>
+</div>
+
 
     <input type="text" id="nome" placeholder="Digite seu nome">
     <input type="email" id="email" placeholder="Digite seu e-mail">
@@ -226,6 +342,26 @@ function enviarNotificacaoTelegram(plano) {
   .then(data => console.log('Notificação enviada:', data))
   .catch(err => console.error('Erro ao enviar notificação:', err));
 }
+
+const btnComoFunciona = document.getElementById('btnComoFunciona');
+const overlayComoFunciona = document.getElementById('overlayComoFunciona');
+const btnFecharOverlay = document.getElementById('btnFecharOverlay');
+
+btnComoFunciona.addEventListener('click', () => {
+  overlayComoFunciona.classList.add('active');
+});
+
+btnFecharOverlay.addEventListener('click', () => {
+  overlayComoFunciona.classList.remove('active');
+});
+
+// Fecha clicando fora da caixa
+overlayComoFunciona.addEventListener('click', (e) => {
+  if (e.target === overlayComoFunciona) {
+    overlayComoFunciona.classList.remove('active');
+  }
+});
+
 </script>
 </body>
 </html>
