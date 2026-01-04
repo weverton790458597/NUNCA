@@ -122,52 +122,8 @@
 
     <button class="start-btn" id="iniciarTrade">Iniciar Trade</button>
   </div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // ================= 🔐 VERIFICA LOGIN =================
-  const auth = JSON.parse(localStorage.getItem('auth'));
-
-  if (!auth || !auth.logado) {
-    window.location.replace('/login/');
-    return;
-  }
-
-  // Atualiza última tela
-  auth.ultimaTela = 'conta';
-  localStorage.setItem('auth', JSON.stringify(auth));
-
-  // Nome no header
-  const header = document.getElementById('userHeader');
-  if (header) {
-    header.textContent = `Bem-vindo ao TradeWR, ${auth.nome || ''}`;
-  }
-
-  // ================= Menu Interaction =================
-  const menuItems = document.querySelectorAll('.menu-item');
-  const sections = document.querySelectorAll('.section');
-  const placeholderLogo = document.getElementById('placeholderLogo');
-
-  menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-      placeholderLogo.style.display = 'none';
-
-      const target = item.dataset.section;
-      sections.forEach(sec => {
-        sec.style.display = sec.id === target ? 'block' : 'none';
-      });
-    });
-  });
-
-  // ================= Iniciar Trade =================
-  const iniciarBtn = document.getElementById('iniciarTrade');
-  if (iniciarBtn) {
-    iniciarBtn.addEventListener('click', () => {
-      window.location.href = '/sinais/';
-    });
-  }
-});
-</script>
-
+<script src="bem-vindo.js" defer></script>
 </body>
 </html>
+
 
