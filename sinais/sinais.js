@@ -53,6 +53,22 @@ function chromeGetPromise(area, keys) {
 }
 
 (() => {
+
+	// =====================================
+// 🔐 PROTEÇÃO DE ACESSO — TELA DE SINAIS
+// =====================================
+const auth = JSON.parse(localStorage.getItem('auth'));
+
+if (!auth || !auth.logado) {
+  // não está logado → volta pro login
+  window.location.replace('/login/');
+  return;
+}
+
+// marca última tela corretamente
+auth.ultimaTela = 'sinais';
+localStorage.setItem('auth', JSON.stringify(auth));
+
   // --------------------
   // Configurações
   // --------------------
@@ -679,7 +695,7 @@ window.addEventListener('sinalModulo', (e) => {
   if (voltarBtn) {
     voltarBtn.addEventListener("click", () => {
       chrome.storage.local.set({ ultimaTela: '', estrategiaSelecionada: null }, () => {
-        window.location.href = "bem-vindo.html";
+        window.location.href = "/conta/";
       });
     });
   }
@@ -831,5 +847,6 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
