@@ -2,110 +2,168 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>TradeWR - Trade</title>
+  <title>TradeWR - Painel</title>
   <style>
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
       background-color: #1e1e1e;
+      color: #fff;
     }
 
-    .trade-container {
-      width: 360px;
-      height: 555px;
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
       background-color: #2c2c2c;
-      padding: 15px;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      color: #fff;
-      text-align: center;
-      position: relative;
+      padding: 20px;
+      border-right: 1px solid #444;
     }
-
-    .trade-logo {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 20px;
+    .sidebar .logo {
+      width: 80px; height: 80px; margin: 0 auto 20px auto;
       background-image: url('icon16.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
     }
-
-    .trade-header {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 15px;
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 18px; font-weight: bold; color: #81c784;
     }
-
-    .trade-section {
-      width: 100%;
-      background-color: #3a3a3a;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-    }
-
-    .trade-section h3 {
-      margin: 0 0 10px 0;
-      font-size: 14px;
-      font-weight: bold;
-      color: #81c784;
-    }
-
-    .trade-section p {
-      margin: 0;
-      font-size: 12px;
-      color: #ccc;
-    }
-
-    .trade-btn {
-      margin-top: auto;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: bold;
-      background-color: #4caf50;
-      color: #000;
-      border: none;
+    .menu-item {
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    .menu-item:hover { background-color: #81c784; color:#000; font-weight:bold; }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .placeholder-logo {
+      width: 200px;
+      height: 200px;
+      background-image: url('icon16.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .section {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none; /* escondida por padrão */
+      width: 100%;
+      max-width: 500px;
+    }
+    .section h3 { color:#81c784; margin-bottom:10px; }
+    .section p { color:#ccc; font-size:14px; }
+
+    .start-btn {
+      align-self: flex-start;
+      padding: 12px 25px;
+      background: linear-gradient(145deg, #4caf50, #81c784);
+      color:#000;
+      font-weight:bold;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      margin-top:auto;
+      transition: all 0.2s;
+    }
+    .start-btn:hover {
+      background: linear-gradient(145deg, #6fd068, #9be68f);
+      transform: translateY(-2px);
     }
 
-    .trade-btn:hover {
-      background-color: #81c784;
-    }
   </style>
 </head>
 <body>
-  <div class="trade-container">
-    <div class="trade-logo"></div>
-    <div class="trade-header">Bem-vindo ao TradeWR</div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo"></div>
+    <h2 id="userHeader">Bem-vindo</h2>
+    <div class="menu-item" data-section="estrategia1">Tutoriais de Uso</div>
+    <div class="menu-item" data-section="estrategia2">Gerenciamento de Risco</div>
+    <div class="menu-item" data-section="estrategia3">Pagamentos</div>
+  </div>
 
-    <div class="trade-section" id="estrategia1">
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Placeholder logo grande -->
+    <div class="placeholder-logo" id="placeholderLogo"></div>
+
+    <div class="section" id="estrategia1">
       <h3>Tutoriais de Uso</h3>
       <p>Se você é novo usuário, comece por aqui.</p>
     </div>
-
-    <div class="trade-section" id="estrategia2">
+    <div class="section" id="estrategia2">
       <h3>Tabela de Gerenciamento de Risco</h3>
       <p>Gerenciamento é o que vai te manter no mercado.</p>
     </div>
-
-    <div class="trade-section" id="estrategia3">
+    <div class="section" id="estrategia3">
       <h3>Pagamentos</h3>
       <p>Fique atento ao seu dia de vencimento.</p>
     </div>
 
-    <button class="trade-btn" id="iniciarTrade">Iniciar Trade</button>
+    <button class="start-btn" id="iniciarTrade">Iniciar Trade</button>
   </div>
 
-  <script src="bem-vindo.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ================= User Check =================
+      const logado = JSON.parse(localStorage.getItem('logado')) || false;
+      const nome = localStorage.getItem('nome') || '';
+      if (!logado) window.location.replace('index.html');
+      else {
+        const header = document.getElementById('userHeader');
+        if (header) header.textContent = `Bem-vindo ao TradeWR, ${nome}`;
+      }
+
+      // ================= Menu Interaction =================
+      const menuItems = document.querySelectorAll('.menu-item');
+      const sections = document.querySelectorAll('.section');
+      const placeholderLogo = document.getElementById('placeholderLogo');
+
+      menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+          // Remove active de todos
+          menuItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+
+          // Esconde placeholder
+          placeholderLogo.style.display = 'none';
+
+          // Mostra seção correspondente
+          const target = item.dataset.section;
+          sections.forEach(sec => {
+            sec.style.display = sec.id === target ? 'block' : 'none';
+          });
+        });
+      });
+
+      // ================= Iniciar Trade =================
+      const iniciarBtn = document.getElementById('iniciarTrade');
+      if (iniciarBtn) {
+        iniciarBtn.addEventListener('click', () => {
+          window.location.href = 'sinais.html';
+        });
+      }
+    });
+  </script>
 </body>
 </html>
-
