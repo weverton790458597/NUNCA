@@ -1,161 +1,217 @@
 /* ==============================
-   TradeWR Mobile - Versão Full App
-   Foco 100% em Smartphones
+   TradeWR — Dark Tech Trading UI
    ============================== */
 
-/* === Base da página (Mobile) === */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #0a0a0a; /* Fundo sólido para App */
-  color: white;
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+  background: #050505;
+  font-family: 'Segoe UI', Inter, Arial, sans-serif;
+  color: #e6e6e6;
 }
 
-/* === Tela principal (Ocupa a tela toda como um App) === */
+/* === Painel central === */
 #overlayTela {
   position: relative;
-  width: 100%;
-  min-height: 100vh;
-  
-  background-color: rgba(20, 20, 20, 1); /* Sólido para evitar transparências estranhas no mobile */
-  border: none; /* Remove bordas para parecer app nativo */
-  border-top: 3px solid gold; /* Detalhe premium no topo */
-  padding: 15px;
-  box-sizing: border-box;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 16px;
+
+  background:
+    radial-gradient(circle at top, #0e0e0e 0%, #050505 70%);
+  border-radius: 14px;
+
+  box-shadow:
+    0 0 0 1px rgba(255,215,0,0.15),
+    0 20px 50px rgba(0,0,0,0.9);
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  gap: 14px;
 }
 
-/* === Container da logo === */
+/* === Header === */
 #logo-container {
-  position: relative;
-  width: 100%;
-  height: 60px;
+  height: 48px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 #logo-container img {
-  height: 50px;
-  width: auto;
+  width: 38px;
+  height: 38px;
 }
 
 #site-nome {
-  position: absolute;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 0.8s ease-in-out;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f2f2f2;
 }
 
-/* === Linha superior (Indicadores em Mobile) === */
+/* === Indicadores (HUD de trade) === */
 .linha-superior {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  padding: 10px;
-  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
-.indicador { font-size: 13px; font-weight: bold; }
 
-/* === Linha central (Sinal em destaque) === */
+.indicador {
+  background: linear-gradient(180deg, #101010, #070707);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 6px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.bb-superior { color: #ff3b3b; }
+.ema { color: #3ba4ff; }
+.bb-inferior { color: #2bff88; }
+
+/* === Área central (core do sinal) === */
 .linha-central {
+  background: linear-gradient(180deg, #0f0f0f, #070707);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 15px;
-  background: rgba(255, 215, 0, 0.05);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 215, 0, 0.1);
 }
 
-#precoAtual { font-size: 22px; font-weight: bold; color: gold; }
+#precoAtual {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
 
-.seta { font-size: 35px; }
+#ultimoFechamento {
+  font-size: 11px;
+  opacity: 0.6;
+}
 
-/* === Botões de Módulo (Ajustados para Touch) === */
+/* === Sinal === */
+#setaCentral,
+.seta {
+  font-size: 36px;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.textoSinal {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.horarioSinal {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+/* === Pulsar agressivo === */
+.pulsar {
+  animation: pulsar 0.9s infinite;
+}
+
+@keyframes pulsar {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* === Botões de módulos (núcleo) === */
 #modulos-container {
   display: flex;
-  flex-direction: row;
-  gap: 12px;
-  margin: 10px 0;
-  width: 100%;
   justify-content: center;
+  gap: 10px;
 }
 
 .module-btn {
-  width: 55px; /* Um pouco maior para facilitar o toque */
-  height: 55px;
-  font-size: 20px;
-  /* Mantém todos os seus estilos de reflexos dinâmicos originais aqui */
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at top, #1a1a1a, #050505);
+  border: 1px solid rgba(255,215,0,0.25);
+
+  box-shadow:
+    0 0 20px rgba(255,215,0,0.15),
+    inset 0 0 10px rgba(0,0,0,0.8);
+
+  font-size: 18px;
+  font-weight: 700;
 }
 
-/* === Seção de Pares (Grid Inteligente para Celular) === */
-#pairsControl {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 pares por linha no mobile */
-  gap: 10px;
-  margin-top: 10px;
+.module-btn:hover {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 30px rgba(255,215,0,0.35);
 }
 
-.pairWrap {
-  width: 100%;
+/* === Containers internos === */
+.modulo-container {
+  background: #080808;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px;
 }
 
-.pairBtn {
-  width: 100%;
-  padding: 12px 5px; /* Mais alto para clique fácil */
-  border-radius: 10px;
-  font-size: 11px;
-  text-align: center;
-  /* Mantém seus estilos originais de reflexo e luz passando */
-}
-
-/* === Botões Flutuantes (Voltar e Gerenciamento) === */
-#botao-voltar {
+/* === Botões superiores === */
+#botao-voltar,
+#botao-gerenciamento {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  padding: 8px 12px;
-  z-index: 100;
+  top: 10px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+#botao-voltar {
+  left: 10px;
+  background: #111;
 }
 
 #botao-gerenciamento {
-  position: absolute;
-  top: 15px;
-  right: 15px; /* Movido para a direita para não bater no voltar */
-  left: auto;
-  padding: 8px 12px;
+  left: 62px;
+  background: #141414;
 }
 
-/* === Toggle Alarme === */
+/* === Toggle alarme === */
 #alarmeToggle {
-  position: relative;
-  margin: 10px 0;
-  /* ... restante do seu estilo ... */
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Reintroduzindo seus Keyframes originais de reflexo */
-@keyframes lightSweepText {
-  0% { transform: translateX(-100%); opacity: 0; }
-  50% { opacity: 0.4; transform: translateX(100%); }
-  100% { transform: translateX(-100%); opacity: 0; }
+/* === Pares === */
+#pairsControl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
-/* [Inclua aqui suas outras animações de reflexo: lightSweep1, lightSweep2, pulse, etc] */
+
+.pairBtn {
+  background: linear-gradient(180deg, #151515, #0a0a0a);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.pairBtn:hover {
+  transform: scale(1.1);
+}
+
+/* === Ativo (trade ON) === */
+.pairBtn.active {
+  background: linear-gradient(180deg, #1aff6a, #0fb356);
+  color: #000;
+  box-shadow: 0 0 18px rgba(26,255,106,0.6);
+}
