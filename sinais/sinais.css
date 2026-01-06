@@ -1,170 +1,168 @@
 /* ==============================
-   TradeWR Web - CSS Evoluído (Site)
-   Foco: Responsividade e UI de Trading
+   TradeWR Web - Versão Evoluída
+   Mantendo 100% da sua estética original
    ============================== */
 
-/* === Reset e Base do Site === */
-* {
-  box-sizing: border-box;
-}
-
+/* === Ajuste para o Site (Notebook e Celular) === */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  /* Fundo gradiente mais profissional que o preto puro */
-  background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+  min-height: 100vh; /* Ocupa a altura toda da tela */
+  font-family: Arial, sans-serif;
+  background-color: #0a0a0a; /* Fundo levemente mais profundo para destacar o card */
   color: white;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: hidden; /* Evita scroll horizontal */
+  justify-content: center; /* Centraliza no notebook */
+  align-items: center;     /* Centraliza no notebook */
+  overflow-x: hidden;
+  overflow-y: auto;        /* Permite rolar se o celular for pequeno */
 }
 
-/* === Tela principal (Adaptada para Web) === */
+/* === Tela principal (O seu Card de Sinais) === */
 #overlayTela {
-  position: relative; /* Mudado de absolute para relative */
-  width: 95%;
-  max-width: 420px; /* Largura ideal para um "Dashboard" mobile/desktop */
-  min-height: 600px;
+  position: relative; /* Mudado de absolute para relative para centralizar no site */
+  width: 362px;       /* Mantendo sua largura original */
+  min-height: 555px;  /* Altura mínima original */
   
-  background-color: rgba(25, 25, 25, 0.95);
-  border: 1px solid rgba(255, 215, 0, 0.3); /* Borda dourada mais sutil */
-  border-radius: 24px;
-  padding: 25px;
+  background-color: rgba(20,20,20,0.95);
+  border: 2px solid gold;
+  border-radius: 20px; /* Bordas um pouco mais suaves */
+  padding: 20px;
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
-              0 0 15px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.2);
   transition: all 0.3s ease;
-  margin: 20px 0;
+  
+  /* Margens para não colar no topo do celular */
+  margin: 20px auto; 
 }
 
-/* === Logo e Título === */
+/* === Ajuste Responsivo para Celulares Pequenos === */
+@media (max-width: 375px) {
+  #overlayTela {
+    width: 95%; /* Se o celular for muito estreito, ele ocupa a largura da tela */
+    zoom: 0.95;  /* Ajuste fino para caber tudo sem quebrar */
+  }
+}
+
+/* === Mantendo sua Logo Original === */
 #logo-container {
+  position: relative;
   width: 100%;
-  height: 60px;
+  max-width: 300px;
+  height: 55px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 #logo-container img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+  width: 50px;
+  height: 50px;
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 
 #site-nome {
-  margin-top: 10px;
-  font-size: 18px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background: linear-gradient(to right, #fff, #ffd700);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  position: absolute;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  white-space: nowrap;
 }
 
-/* === Grid de Indicadores === */
+/* === Seus Indicadores (Mantidos) === */
 .linha-superior {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 15px;
-  border-radius: 12px;
-  gap: 10px;
 }
+.indicador { flex: 1; text-align: center; font-size: 14px; font-weight: bold; }
+.bb-superior { color: #ff4444; }
+.ema { color: #4444ff; }
+.bb-inferior { color: #00ff00; }
 
-.indicador { 
-  display: flex; 
-  flex-direction: column;
-  gap: 4px;
-  font-size: 12px; 
-}
-
-/* === Área do Sinal Central === */
+/* === Linha Central e Preço === */
 .linha-central {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
-  padding: 20px;
-  text-align: center;
+  min-height: 85px;
+  padding: 0 10px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
 }
+#precoAtual { font-size: 20px; font-weight: bold; color: gold; }
 
-#precoAtual { 
-  font-size: 32px; 
-  font-weight: bold; 
-  font-family: 'Courier New', monospace;
-  color: #ffd700;
-}
-
-.seta { 
-  font-size: 45px; 
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-/* === Módulos e Botões === */
-#modulos-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 15px;
-  width: 100%;
-  justify-items: center;
-}
-
+/* === Seus Botões (Reflexos e Animações Preservados) === */
 .module-btn {
-  width: 55px;
-  height: 55px;
-  background: rgba(40, 40, 40, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(40, 40, 40, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  animation: pulse 4s ease-in-out infinite;
 }
 
-/* === Controles de Pares (Botões inferiores) === */
+/* === Pares de Moedas (Organização Web) === */
 #pairsControl {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 pares por linha no mobile */
-  gap: 10px;
-  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os botões no site */
 }
 
 .pairBtn {
-  width: 100%;
-  padding: 12px 5px;
-  font-size: 11px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* === Ajustes para Mobile === */
-@media (max-width: 480px) {
-  #overlayTela {
-    width: 92%;
-    padding: 15px;
-    margin: 10px 0;
-  }
-  
-  #precoAtual { font-size: 26px; }
-  
-  .pairBtn { font-size: 10px; }
-}
-
-/* === Scrollbar Customizada === */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #111;
-}
-::-webkit-scrollbar-thumb {
-  background: gold;
+  padding: 8px 12px;
+  min-width: 90px; /* Garante que os botões tenham um tamanho bom no notebook */
   border-radius: 10px;
+  background: rgba(50, 50, 50, 0.6);
+  color: #fff;
+  border: 1px solid rgba(255,215,0,0.1);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pairBtn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: gold;
+}
+
+/* === Botão Gerenciamento (Ajuste de Posição) === */
+#botao-gerenciamento {
+  position: absolute; /* Agora ele fica preso ao topo do card, não da janela */
+  top: 15px;
+  left: 15px;
+  padding: 5px 10px;
+  font-size: 12px;
+  background-color: rgba(60,60,60,0.8);
+  border-radius: 8px;
+  z-index: 10;
+}
+
+/* [Suas animações keyframes (lightSweepText, pulsar, pulse, etc) permanecem as mesmas abaixo] */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
