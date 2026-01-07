@@ -126,7 +126,6 @@ chrome.storage.sync.get({ enabledPairs: defaultPairs }, data => {
   
 
   const voltarBtn = document.getElementById("botao-voltar");
-  const iaBtn = document.getElementById("iaBtn");
   const btnRefresh = document.getElementById('botao-refresh'); 
   chrome.storage.local.set({ ultimaTela: 'overlay' });
 
@@ -711,21 +710,6 @@ window.addEventListener('sinalModulo', (e) => {
     });
   }
 
-if (iaBtn) {
-  iaBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    sessionStorage.setItem(
-      "estadoPainel",
-      JSON.stringify({
-        ultimaTela: "",
-        estrategiaSelecionada: null
-      })
-    );
-
-    window.open("/conta/", "_blank", "noopener,noreferrer");
-  });
-}
 ////////////////////////fim da Função/////////////////////////
 
   setInterval(()=>{
@@ -866,6 +850,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
