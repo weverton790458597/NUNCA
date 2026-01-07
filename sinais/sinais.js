@@ -711,14 +711,17 @@ window.addEventListener('sinalModulo', (e) => {
     });
   }
 
-  if (iaBtn) {
+if (iaBtn) {
   iaBtn.addEventListener("click", () => {
-    chrome.storage.local.set(
-      { ultimaTela: '', estrategiaSelecionada: null },
-      () => {
-        window.location.href = "/conta/";
-      }
+    sessionStorage.setItem(
+      "estadoPainel",
+      JSON.stringify({
+        ultimaTela: "",
+        estrategiaSelecionada: null
+      })
     );
+
+    window.location.href = "/conta/";
   });
 }
 ////////////////////////fim da Função/////////////////////////
@@ -861,6 +864,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
