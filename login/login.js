@@ -26,32 +26,67 @@ function validarLogin() {
     return;
   }
 
-  const url = `${SHEET_API_URL}?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`;
-  console.log('Chamando:', url);
+ fetch(`${SHEET_API_URL}?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`)
+  .then(res => res.json())
+  .then(data => {
+    console.log('Resposta AppScript:', data);
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      console.log('Resposta AppScript:', data);
-
-      if (data?.success) {
+    if (data?.success) {
+      // Salva sessão
       sessionStorage.setItem('auth', JSON.stringify({
-  logado: true,
-  email,
-  nome: data.nome || ''
-}));
+        logado: true,
+        email,
+        nome: data.nome || ''
+      }));
 
-
-        window.location.href = '/sinais/';
-
+      // Verifica vencimento
+      if (data.proxVencimento) {
+        mostrarAvisoPagamento(data.proxVencimento);
       } else {
-        erro.textContent = 'E-mail ou senha inválidos';
+        // Sem vencimento, redireciona direto
+        window.location.href = '/sinais/';
       }
-    })
-    .catch(err => {
-      console.error('Erro fetch ->', err);
-      erro.textContent = 'Erro ao validar login';
+
+    } else {
+      erro.textContent = 'E-mail ou senha inválidos';
+    }
+  })
+  .catch(err => {
+    console.error('Erro fetch ->', err);
+    erro.textContent = 'Erro ao validar login';
+  });
+
+function mostrarAvisoPagamento(proxVencimento) {
+  const hoje = new Date();
+  const venc = new Date(proxVencimento);
+  const diffDias = Math.ceil((venc - hoje) / (1000*60*60*24));
+
+  if (diffDias <= 3 && diffDias >= 0) {
+    // Cria overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'overlayPagamento';
+    overlay.innerHTML = `
+      <div class="overlay-content">
+        <h2>⚠️ Atenção ao vencimento</h2>
+        <p>Seu acesso vence em ${diffDias} dia(s). Realize o pagamento para não ficar inadimplente.</p>
+        <p class="observacao">Caso já tenha realizado o pagamento, ignore esta mensagem.</p>
+        <div class="botoes">
+          <a href="https://linkfixo.com/mercadopago" target="_blank" class="btn-pagar">Pagar agora</a>
+          <button id="continuarBtn" class="btn-continuar">Continuar</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Botão continuar fecha overlay e vai pra tela
+    document.getElementById('continuarBtn').addEventListener('click', () => {
+      overlay.remove();
+      window.location.href = '/sinais/';
     });
+  } else {
+    // Se não está perto do vencimento, vai direto
+    window.location.href = '/sinais/';
+  }
 }
 
 // =====================================
@@ -70,4 +105,5 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
+
 
