@@ -42,7 +42,7 @@ function validarLogin() {
 }));
 
 
-        window.location.href = '/conta/';
+        window.location.href = '/sinais/';
 
       } else {
         erro.textContent = 'E-mail ou senha inválidos';
@@ -70,3 +70,4 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
+
