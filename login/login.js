@@ -1,3 +1,9 @@
+// 🔐 Força login apenas quando acessar o /login diretamente
+if (performance.getEntriesByType('navigation')[0].type === 'navigate') {
+  sessionStorage.removeItem('auth');
+}
+
+
 const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
 const entrarBtn = document.getElementById('entrar');
@@ -6,20 +12,6 @@ const toggleSenha = document.getElementById('toggleSenha');
 
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx33kwB_uKur1d12uVrWrBPkcEM8m9-NhgL6RTzso9TPGb5wsHWV7S9OrfkAxeiAnnz0g/exec";
 
-// =====================================
-// 🔐 VERIFICA LOGIN AO ABRIR A PÁGINA
-// =====================================
-(function verificarLogin() {
-  const auth = JSON.parse(localStorage.getItem('auth'));
-
-  if (auth?.logado) {
-    if (auth.ultimaTela === 'conta') {
-      window.location.replace('/conta/');
-    } else if (auth.ultimaTela === 'sinais') {
-      window.location.replace('/sinais/');
-    }
-  }
-})();
 
 // =====================================
 // 🚀 FUNÇÃO DE LOGIN
@@ -43,12 +35,12 @@ function validarLogin() {
       console.log('Resposta AppScript:', data);
 
       if (data?.success) {
-        localStorage.setItem('auth', JSON.stringify({
-          logado: true,
-          email,
-          nome: data.nome || '',
-          ultimaTela: 'conta' // 👈 PRIMEIRA TELA APÓS LOGIN
-        }));
+      sessionStorage.setItem('auth', JSON.stringify({
+  logado: true,
+  email,
+  nome: data.nome || ''
+}));
+
 
         window.location.href = '/conta/';
 
