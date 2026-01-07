@@ -1,3 +1,9 @@
+// ================================
+// CONFIGURAÇÕES DE PAGAMENTO
+// ================================
+const DIA_VENCIMENTO = 10; // Dia fixo de vencimento do mês
+const DIAS_AVISO = 3;      // Quantos dias antes do vencimento mostrar aviso
+
 // 🔐 Força login apenas quando acessar o /login diretamente
 if (performance.getEntriesByType('navigation')[0].type === 'navigate') {
   sessionStorage.removeItem('auth');
@@ -40,12 +46,17 @@ function validarLogin() {
           nome: data.nome || ''
         }));
 
-        // Verifica dias para vencimento padrão (dia 10)
-        const diffDias = diasParaVencimentoPadrao();
-        if (diffDias <= 3 && diffDias >= 0) {
+        // Checa dias para vencimento
+        const diffDias = calcularDiasParaVencimento();
+
+        if (diffDias < 0) {
+          // Passou do vencimento → bloqueio total
+          mostrarBloqueioTotal();
+        } else if (diffDias <= DIAS_AVISO) {
+          // Próximos DIAS_AVISO dias → aviso
           mostrarAvisoPagamento(diffDias);
         } else {
-          // Se não está perto do vencimento, vai direto
+          // Fora do período → vai direto
           window.location.href = '/sinais/';
         }
 
@@ -59,25 +70,25 @@ function validarLogin() {
     });
 }
 
-// =====================================
-// ⚡ FUNÇÃO PARA CALCULAR DIAS ATÉ DIA 10
-// =====================================
-function diasParaVencimentoPadrao() {
+// ================================
+// Função que calcula dias para o vencimento fixo
+// ================================
+function calcularDiasParaVencimento() {
   const hoje = new Date();
-  let diaVenc = new Date(hoje.getFullYear(), hoje.getMonth(), 10);
+  let venc = new Date(hoje.getFullYear(), hoje.getMonth(), DIA_VENCIMENTO);
 
-  // Se já passou o dia 10, considera o próximo mês
-  if (hoje.getDate() > 10) {
-    diaVenc = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 10);
+  // Se hoje já passou do dia do mês, considera próximo mês
+  if (hoje.getDate() > DIA_VENCIMENTO) {
+    venc = new Date(hoje.getFullYear(), hoje.getMonth() + 1, DIA_VENCIMENTO);
   }
 
-  const diffDias = Math.ceil((diaVenc - hoje) / (1000 * 60 * 60 * 24));
-  return diffDias;
+  const diff = Math.ceil((venc - hoje) / (1000 * 60 * 60 * 24));
+  return diff;
 }
 
-// =====================================
-// ⚠️ FUNÇÃO DE AVISO DE PAGAMENTO
-// =====================================
+// ================================
+// Overlay de aviso antes do vencimento
+// ================================
 function mostrarAvisoPagamento(diffDias) {
   const overlay = document.createElement('div');
   overlay.id = 'overlayPagamento';
@@ -94,11 +105,31 @@ function mostrarAvisoPagamento(diffDias) {
   `;
   document.body.appendChild(overlay);
 
-  // Botão continuar fecha overlay e vai para tela de sinais
+  // Botão continuar fecha overlay e vai pra tela
   document.getElementById('continuarBtn').addEventListener('click', () => {
     overlay.remove();
     window.location.href = '/sinais/';
   });
+}
+
+// ================================
+// Overlay de bloqueio total após vencimento
+// ================================
+function mostrarBloqueioTotal() {
+  const overlay = document.createElement('div');
+  overlay.id = 'overlayPagamento';
+  overlay.innerHTML = `
+    <div class="overlay-content">
+      <h2>⚠️ Acesso Bloqueado</h2>
+      <p>Seu acesso expirou. Realize o pagamento para continuar usando a plataforma.</p>
+      <p class="observacao">Caso já tenha realizado o pagamento, contate o suporte.</p>
+      <div class="botoes">
+        <a href="https://linkfixo.com/mercadopago" target="_blank" class="btn-pagar">Pagar agora</a>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden'; // bloqueia scroll
 }
 
 // =====================================
