@@ -55,7 +55,7 @@ function validarLogin() {
     console.error('Erro fetch ->', err);
     erro.textContent = 'Erro ao validar login';
   });
-
+}
 function mostrarAvisoPagamento(proxVencimento) {
   const hoje = new Date();
   const venc = new Date(proxVencimento);
@@ -105,5 +105,6 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
+
 
 
