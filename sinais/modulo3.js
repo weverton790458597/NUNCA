@@ -114,9 +114,9 @@ function calcularRSI(velas, periodo = 14) {
     let sinal = null;
 
     // ===== MESMA LÓGICA DO MÓDULO 1 =====
-    if (preco <= bb.inferior && emaDentro && rsi <= 45) {
+    if (preco <= bb.inferior && emaDentro && rsi <= 30) {
       sinal = 'compra';
-    } else if (preco >= bb.superior && emaDentro && rsi >= 55) {
+    } else if (preco >= bb.superior && emaDentro && rsi >= 70) {
       sinal = 'venda';
     }
 
@@ -357,4 +357,5 @@ setInterval(atualizarScoreDots, 1000);
 
   // fim do IIFE
 })();
+
 
