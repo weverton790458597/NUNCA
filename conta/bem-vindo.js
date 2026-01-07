@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (header) {
     header.textContent = `Bem-vindo ao TradeWR, ${auth.nome || ''}`;
   }
-});
-
 
   // ================= Menu Interaction =================
   const menuItems = document.querySelectorAll('.menu-item');
@@ -39,4 +37,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
