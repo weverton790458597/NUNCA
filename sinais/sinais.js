@@ -721,7 +721,7 @@ if (iaBtn) {
       })
     );
 
-    window.location.href = "/conta/";
+    window.open("/conta/", "_blank");
   });
 }
 ////////////////////////fim da Função/////////////////////////
@@ -864,6 +864,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
