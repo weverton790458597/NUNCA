@@ -419,6 +419,24 @@ input:focus {
   }
 }
 
+/* Link do suporte */
+.overlay-content .suporte {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.overlay-content .suporte a {
+  color: #00c853; /* mesma cor do botão pagar para consistência */
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.overlay-content .suporte a:hover {
+  color: #00e676;
+}
+
 
 
 
