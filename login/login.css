@@ -264,12 +264,8 @@ input:focus {
 #overlayPagamento {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    circle at top,
-    rgba(0, 0, 0, 0.55),
-    rgba(0, 0, 0, 0.85)
-  );
-  backdrop-filter: blur(6px);
+  background: rgba(11, 14, 20, 0.85); /* usa cor do fundo principal com opacidade */
+  backdrop-filter: blur(6px); /* desfoque premium */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,9 +273,9 @@ input:focus {
   animation: fadeIn 0.4s ease forwards;
 }
 
-/* Caixa principal */
+/* Caixa principal do overlay */
 .overlay-content {
-  background: linear-gradient(180deg, #ffffff, #f6f7f9);
+  background: var(--bg-card); /* mesma cor do login card */
   padding: 36px 32px;
   border-radius: 18px;
   width: 100%;
@@ -287,36 +283,40 @@ input:focus {
   text-align: center;
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   animation: scaleUp 0.35s ease forwards;
   position: relative;
   overflow: hidden;
 }
 
-/* Detalhe premium no topo */
+/* Detalhe elegante no topo */
 .overlay-content::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  height: 5px;
+  height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, #00c853, #64dd17);
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 }
 
 /* Título */
 .overlay-content h2 {
+  font-family: 'Inter', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #111;
-  margin-bottom: 14px;
+  color: var(--text-main);
+  margin-bottom: 12px;
   letter-spacing: -0.3px;
 }
 
 /* Texto principal */
 .overlay-content p {
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
-  color: #444;
+  color: var(--text-muted);
   line-height: 1.5;
   margin-bottom: 12px;
 }
@@ -334,6 +334,7 @@ input:focus {
   display: flex;
   gap: 14px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* Botões base */
@@ -352,30 +353,36 @@ input:focus {
   overflow: hidden;
 }
 
-/* Botão pagar — destaque máximo */
+/* Botão pagar — destaque premium */
 .btn-pagar {
-  background: linear-gradient(135deg, #00c853, #00e676);
-  color: #0b2e13;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #0b0e14;
   box-shadow:
-    0 10px 25px rgba(0, 200, 83, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 8px 20px rgba(46, 204, 113, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 700;
 }
 
 /* Efeito hover pagar */
 .btn-pagar:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 14px 30px rgba(0, 200, 83, 0.55);
+    0 12px 28px rgba(46, 204, 113, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Botão continuar */
+/* Botão continuar — neutro discreto */
 .btn-continuar {
-  background: #e0e0e0;
-  color: #333;
+  background: var(--bg-input);
+  color: var(--text-main);
+  box-shadow:
+    0 6px 15px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .btn-continuar:hover {
-  background: #d5d5d5;
+  background: var(--bg-card);
+  transform: translateY(-1px);
 }
 
 /* Quando só existir o botão pagar (bloqueio total) */
@@ -385,12 +392,8 @@ input:focus {
 
 /* Animações */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scaleUp {
@@ -415,6 +418,7 @@ input:focus {
     flex-direction: column;
   }
 }
+
 
 
 
