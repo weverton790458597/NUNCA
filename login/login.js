@@ -127,17 +127,22 @@ function mostrarBloqueioTotal() {
   overlay.id = 'overlayPagamento';
   overlay.innerHTML = `
     <div class="overlay-content">
-      <h2>⚠️ Acesso Bloqueado</h2>
-      <p>Seu acesso expirou. Realize o pagamento para continuar usando a plataforma.</p>
-      <p class="observacao">Caso já tenha realizado o pagamento, contate o suporte.</p>
+      <h2>⛔ Acesso Bloqueado</h2>
+      <p>Seu acesso expirou. Para continuar usando a plataforma, é necessário realizar o pagamento.</p>
+      <p class="observacao">Se já pagou, entre em contato com o suporte.</p>
       <div class="botoes">
-        <a href="https://linkfixo.com/mercadopago" target="_blank" class="btn-pagar">Pagar agora</a>
+        <a href="https://mpago.la/2CcTCuj" target="_blank" class="btn-pagar">Realizar Pagamento</a>
       </div>
+      <p class="suporte">
+        Contate o suporte: 
+        <a href="https://t.me/trade_wr" target="_blank">@TradeWR</a>
+      </p>
     </div>
   `;
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden'; // bloqueia scroll
 }
+
 
 // =====================================
 // 🎯 LISTENERS
@@ -155,7 +160,6 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
-
 
 
 
