@@ -15,7 +15,7 @@ const entrarBtn = document.getElementById('entrar');
 const erro = document.getElementById('erro');
 const toggleSenha = document.getElementById('toggleSenha');
 
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx33kwB_uKur1d12uVrWrBPkcEM8m9-NhgL6RTzso9TPGb5wsHWV7S9OrfkAxeiAnnz0g/exec";
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyaOn8-b-n_hRsvmhsMe08LfGpY_KTTNNX8V5P0SsKF3beM6o62TkO3rH3xpGhMX_oJUg/exec";
 
 // =====================================
 // 🚀 FUNÇÃO DE LOGIN
@@ -155,5 +155,6 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
+
 
 
