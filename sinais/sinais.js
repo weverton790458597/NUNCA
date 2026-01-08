@@ -466,11 +466,11 @@ function mostrarSinal(tipo, origem = null) {
   }
 
   
-   // === Aqui é onde você coloca o Telegram ===
+ // === Aqui é onde você coloca o Telegram ===
 if (typeof window.enviarTelegram === 'function') {
 
   const msg = 
-`📌 *SINAL DISPONÍVEL*
+`📢 *SINAL DE TRADE DISPONÍVEL!*
 
 ${tipo === 'compra' ? '🚀 *COMPRA*' : '📉 *VENDA*'}
 
@@ -478,18 +478,19 @@ ${tipo === 'compra' ? '🚀 *COMPRA*' : '📉 *VENDA*'}
 *Status:* Entrar Agora
 
 ⏱ ${new Date().toLocaleTimeString('pt-BR', {hour12:false})}
+
+💡 Acompanhe mais sinais e oportunidades em: tradewr.shop
 `;
 
   window.enviarTelegram(msg);
 }
 
+hideTimeout = setTimeout(() => {
+  aguardando = true;
+  ponto = 0;
+  seta.classList.remove('pulsar');
+}, 30000);
 
-  hideTimeout = setTimeout(() => {
-    aguardando = true;
-    ponto = 0;
-    seta.classList.remove('pulsar');
-  }, 30000);
-}
 
 // ======================================================
 // 🚀 Função gerarSinal() — Versão CLEAN, rápida e direta
@@ -795,7 +796,15 @@ function verificarWinRateAlert() {
 
     if (winRate >= 0.7) {
       if (!winRateAlertSent[sym]) {
-        const msg = `⚠️ WinRate ${Math.round(winRate * 100)}% em ${sym}! Fique atento(a) a possíveis sinais.`;
+        const msg = 
+`⚠️ *ATENÇÃO!*  
+WinRate de *${Math.round(winRate * 100)}%* em \`${sym}\`!  
+
+Fique de olho em possíveis sinais de entrada.  
+
+💡 Confira mais análises e sinais em: tradewr.shop
+`;
+
 
         // som
         if (typeof alertaSom.play === 'function') {
@@ -850,6 +859,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
