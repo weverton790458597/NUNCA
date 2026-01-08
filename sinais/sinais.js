@@ -488,7 +488,7 @@ hideTimeout = setTimeout(() => {
   ponto = 0;
   seta.classList.remove('pulsar');
 }, 30000);
-
+}
 
 // ======================================================
 // 🚀 Função gerarSinal() — Versão CLEAN, rápida e direta
@@ -852,6 +852,7 @@ setInterval(verificarWinRateAlert, 10000);
 
 
 })();
+
 
 
 
