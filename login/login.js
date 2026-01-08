@@ -116,7 +116,7 @@ function mostrarAvisoPagamento(diffDias) {
       <p>${mensagem}</p>
       <p class="observacao">Caso já tenha realizado o pagamento, ignore esta mensagem.</p>
       <div class="botoes">
-        <a href="https://linkfixo.com/mercadopago" target="_blank" class="btn-pagar">Pagar agora</a>
+        <a href="https://mpago.la/2CcTCuj" target="_blank" class="btn-pagar">Pagar agora</a>
         <button id="continuarBtn" class="btn-continuar">Continuar</button>
       </div>
     </div>
@@ -173,6 +173,7 @@ senhaInput.addEventListener('keypress', e => {
 toggleSenha.addEventListener('click', () => {
   senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
 });
+
 
 
 
